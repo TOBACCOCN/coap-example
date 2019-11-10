@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <!-- %d 日期，%p 日志级别，%t 线程名，%file 日志输出源文件， -->
+    <!-- %line 日志所在行数，%m 输出的信息，%n 换行， -->
+    <property name="PATTERN" value="%d %p %file:%line %m%n%wEx"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d){faint} %clr(-%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}:%-4line){cyan} %clr(:){faint} %m%n%wEx"/>
+    <property name="FILE_LOG_PATTERN"
+              value="%d -%5p ${PID:- } --- [%15.15t] %-40.40logger{39}:%-4line : %m%n%wEx"/>
+    <property name="CHARSET" value="UTF-8"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件路径 -->
+        <File>logs/log.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/log.%d.%i.log</fileNamePattern>
+            <!-- 日志文件的保存期限 -->
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 日志文件的大小，默认值是10MB -->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+        <!-- 接收指定级别及以上级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- 接收指定级别日志 -->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>-->
+    </appender>
+
+    <!-- 全局输出日志级别 -->
+    <!-- 级别依次为【从高到低】：OFF  > ERROR > WARN > INFO > DEBUG > TRACE > ALL  -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
+    <!-- addtivity：是否将日志输出到 root 指定的 appender-ref，默认是 true，为 false 时，需要单独指定自己的 appender-ref  -->
+    <!-- 如下配置，也就是指定包下的日志会输出到 CONSOLE 和 FILE  -->
+    <logger name="com.example" level="DEBUG" additivity="true">
+    </logger>
+
+</configuration>  

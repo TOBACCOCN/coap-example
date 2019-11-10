@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="CHARSET" value="UTF-8"/>
+
+    <!-- %m 输出的信息,%p 日志级别,%t 线程名,%d 日期,%c 类的全名,%i 索引【从数字0开始递增】,,, -->
+    <!-- appender 是 configuration 的子节点，是负责写日志的组件。 -->
+    <!-- ConsoleAppender：把日志输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %p [%t] %file:%line : %m%n</pattern>
+            <!-- 控制台也要使用 UTF-8，不要使用 GBK，否则会中文乱码 -->
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件路径 -->
+        <File>logs/test.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/test.%d.%i.log</fileNamePattern>
+            <!-- 日志文件的保存期限 -->
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 日志文件的大小，默认值是10MB -->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %p %file:%line : %m%n</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+        <!-- 接收指定级别及以上级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <!-- 接收指定级别日志 -->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>-->
+    </appender>
+
+    <!-- 控制台输出日志级别 -->
+    <!-- windows 开发环境使用 STDOUT 、 INFO -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
+
+    <!-- addtivity：是否向上级 logger 传递打印信息。默认是true。
+    设置为 false 时，就不会将 name 中指定的几个package 的日志输出到 root 级别指定的log文件或STDOUT中  -->
+    <logger name="com.coap.example" level="DEBUG" additivity="true">
+    </logger>
+</configuration>  
