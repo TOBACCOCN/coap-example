@@ -13,39 +13,10 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 日志文件路径 -->
-        <File>logs/test.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/test.%d.%i.log</fileNamePattern>
-            <!-- 日志文件的保存期限 -->
-            <maxHistory>30</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- 日志文件的大小，默认值是10MB -->
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d %p %file:%line : %m%n</pattern>
-            <charset>${CHARSET}</charset>
-        </encoder>
-        <!-- 接收指定级别及以上级别日志 -->
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
-        <!-- 接收指定级别日志 -->
-        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>-->
-    </appender>
-
     <!-- 控制台输出日志级别 -->
     <!-- windows 开发环境使用 STDOUT 、 INFO -->
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
     </root>
 
     <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->

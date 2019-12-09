@@ -60,7 +60,7 @@
     <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
     <!-- addtivity：是否将日志输出到 root 指定的 appender-ref，默认是 true，为 false 时，需要单独指定自己的 appender-ref  -->
     <!-- 如下配置，也就是指定包下的日志会输出到 CONSOLE 和 FILE  -->
-    <logger name="com.example" level="DEBUG" additivity="true">
+    <logger name="com.coap.example" level="DEBUG" additivity="true">
     </logger>
 
 </configuration>  
