@@ -85,7 +85,7 @@ public class SimpleCoapServer {
                                 url = url.substring(0, url.length() - 1);
                             }
 
-                            if (url2MethodMap.keySet().contains(url)) {
+                            if (url2MethodMap.containsKey(url)) {
                                 throw new IllegalStateException(">>>>> Ambiguous mapping. Cannot map \n[" + method +
                                         "] \nto [" + url + "]\n. There is already \n[" + url2MethodMap.get(url) +
                                         "]\n mapped.");
